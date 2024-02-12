@@ -26,7 +26,7 @@ export default function Home() {
           <div className="md:w-3/4">
             <h5 className="mb-2 text-4xl md:text-8xl font-bold tracking-tight text-gray-900">Next.js AI Chatbot - Chat with <span className="text-chatbot">any website</span></h5>
             <p className="block mb-5 text-xl font-normal text-gray-700">
-              Use an AI chatbot with website context retrieved from a vector store like LanceDB. LanceDB is lightweight and can be <b>embedded directly into <a href="https://nextjs.org" target="_blank" className="inline-flex items-center font-medium text-chatbot hover:underline">Next.js</a></b>, with data stored on-prem or s3.
+              Use an AI chatbot with website context retrieved from a LanceDB vector store. LanceDB is lightweight and can be <b>embedded directly into <a href="https://nextjs.org" target="_blank" className="inline-flex items-center font-medium text-chatbot hover:underline">Next.js</a></b>, with data stored on-prem or s3.
             </p>
             <Form state={state} setState={setState} />
           </div>
@@ -56,7 +56,7 @@ export default function Home() {
               </svg>
 
               <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Immersive chat experience</h5>
-              <p className="font-normal text-gray-500 ">Experience instant responses powered by up-to-date information, ensuring a dynamic and engaging chat experience.</p>
+              <p className="font-normal text-gray-500 ">Encounter instant responses fueled by real-time information and streaming, ensuring a dynamic chat experience.</p>
             </div>
           </div>
         </div>
