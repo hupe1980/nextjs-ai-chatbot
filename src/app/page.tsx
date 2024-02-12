@@ -9,7 +9,7 @@ export default function Home() {
   const [state, setState] = useState({
     chat: false,
     pages: 1,
-    website: 'https://vercel.com/sitemap.xml',
+    website: 'https://hupe1980.github.io/golc/sitemap.xml',
     table: '',
     modelName: 'gpt-3.5-turbo',
     temperature: 0.7,
