@@ -1,5 +1,5 @@
 # 🤖 nextjs-ai-chatbot
-> Next.js AI Chatbot with any website
+> Next.js AI Chatbot - Chat with any website
 
 This is a [Next.js](https://nextjs.org/) project that implements an AI chatbot with website context retrieved from a vector store.
 
@@ -23,7 +23,7 @@ Install dependencies:
 npm install
 ```
 
-Rename `.env.example` to `.env.local`, and fill out `OPENAI_API_KEY` with your OpenAI API key. You can get one [here](https://openai.com/blog/openai-api).
+Rename `.env.example` to `.env.local`, and fill out `OPENAI_API_KEY` with your OpenAI API key.
 
 To run the development server:
 
@@ -40,7 +40,8 @@ To learn more about Langchain, Next.js, Vercel AI SDK and LanceDB, take a look a
 - [LangChain](https://js.langchain.com/)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Vercel AI SDK](https://vercel.com/blog/introducing-the-vercel-ai-sdk) 
-- [LanceDB](https://example.com/lancedb)
+- [LanceDB](https://lancedb.com/)
 
 ## License
+
 This project is licensed under the [MIT License](LICENSE).
