@@ -1,18 +1,24 @@
 'use client'
 
 import { useChat } from 'ai/react'
-import { useEffect, Dispatch, SetStateAction } from 'react'
+import { useEffect, Dispatch, SetStateAction, useState } from 'react'
 
 import Message from './Message'
 
 export default function Chat({ state, setState }: { state: MainState, setState: Dispatch<SetStateAction<MainState>> }) {
+  const [chatId, setChatId] = useState<number | undefined>(undefined)
   const { messages, input, handleInputChange, handleSubmit } = useChat({
+    id: chatId?.toString(),
     body: {
       table: state.table,
       modelName: state.modelName,
       temperature: state.temperature,
     }
   })
+
+  const handleReset = () => {
+    setChatId(chatId => (chatId ?? 0) + 1);
+  }
 
   const websiteBase = state.website.split('/')[2]
 
@@ -46,6 +52,11 @@ export default function Chat({ state, setState }: { state: MainState, setState: 
           <button className="inline-flex justify-center items-center h-10 w-10 text-sm font-medium text-center text-white bg-chatbot rounded-lg hover:bg-opacity-80 focus:ring-4 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+            </svg>
+          </button>
+          <button type="reset" onClick={handleReset} className="inline-flex justify-center items-center h-10 w-10 text-sm font-medium text-center text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </form>
