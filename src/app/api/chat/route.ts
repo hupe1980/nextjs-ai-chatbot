@@ -3,8 +3,9 @@ import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { BytesOutputParser, StringOutputParser } from '@langchain/core/output_parsers';
 import { connect, OpenAIEmbeddingFunction } from 'vectordb'
+import { getEnv } from 'get-env-or-die';
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? ''
+const OPENAI_API_KEY = getEnv('OPENAI_API_KEY')
 
 const REPHRASE_TEMPLATE = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.
 
@@ -49,7 +50,7 @@ async function rephraseInput(model: ChatOpenAI, chatHistory: string[], input: st
     });
 }
 
-async function retrieveContext(query: string, table: string): Promise<EntryWithContext[]> {
+async function retrieveContext(query: string, table: string, k = 3): Promise<EntryWithContext[]> {
     const db = await connect('/tmp/website-lancedb')
     
     const embedFunction = new OpenAIEmbeddingFunction('context', OPENAI_API_KEY)
@@ -61,7 +62,7 @@ async function retrieveContext(query: string, table: string): Promise<EntryWithC
     return await tbl
       .search(query)
       .select(['link', 'text', 'context'])
-      .limit(3)
+      .limit(k)
       .execute() as EntryWithContext[]
   }
 

@@ -1,5 +1,7 @@
-import { createEmbeddingsTable } from './insert'
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
+
+import { createEmbeddingsTable } from './insert';
+
 
 export async function POST(req: Request) {
     const { url, pages } = await req.json()

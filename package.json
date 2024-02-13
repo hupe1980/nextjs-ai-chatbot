@@ -13,6 +13,8 @@
     "@langchain/openai": "^0.0.14",
     "ai": "^2.2.34",
     "cheerio": "^1.0.0-rc.12",
+    "get-env-or-die": "^1.0.18",
+    "next": "^14.1.0",
     "node-fetch": "^3.3.2",
     "openai": "^4.27.0",
     "react": "^18",
