@@ -1,10 +1,9 @@
 import crypto from 'crypto';
 import { connect, OpenAIEmbeddingFunction } from 'vectordb';
-import { getEnv } from 'get-env-or-die';
 
 import { getDomObjects } from './scrape';
 
-const OPENAI_API_KEY = getEnv('OPENAI_API_KEY')
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? ''
 
 export async function createEmbeddingsTable(url: string, pages: number) {
   const db = await connect('/tmp/website-lancedb')

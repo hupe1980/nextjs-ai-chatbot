@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, type ReactNode } from 'react';
-import { getEnv} from 'get-env-or-die';
 
 import Chat from './components/Chat'
 import Form from './components/Form'
@@ -10,7 +9,7 @@ export default function Home() {
   const [state, setState] = useState({
     chat: false,
     pages: 3,
-    website: getEnv('DEFAULT_WEBSITE', 'https://hupe1980.github.io/golc/sitemap.xml'),
+    website: process.env.NEXT_PUBLIC_DEFAULT_WEBSITE ?? 'https://hupe1980.github.io/golc/sitemap.xml',
     table: '',
     modelName: 'gpt-3.5-turbo',
     temperature: 0.7,

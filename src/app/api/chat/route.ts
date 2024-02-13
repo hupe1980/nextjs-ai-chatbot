@@ -3,9 +3,8 @@ import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { BytesOutputParser, StringOutputParser } from '@langchain/core/output_parsers';
 import { connect, OpenAIEmbeddingFunction } from 'vectordb'
-import { getEnv } from 'get-env-or-die';
 
-const OPENAI_API_KEY = getEnv('OPENAI_API_KEY')
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? ''
 
 const REPHRASE_TEMPLATE = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.
 
