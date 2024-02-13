@@ -7,6 +7,7 @@ import Message from './Message'
 
 export default function Chat({ state, setState }: { state: MainState, setState: Dispatch<SetStateAction<MainState>> }) {
   const [chatId, setChatId] = useState<number | undefined>(undefined)
+  
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     id: chatId?.toString(),
     body: {

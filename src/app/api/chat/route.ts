@@ -6,24 +6,50 @@ import { connect, OpenAIEmbeddingFunction } from 'vectordb'
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? ''
 
-const REPHRASE_TEMPLATE = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.
+const REPHRASE_TEMPLATE = `Rephrase the follow-up question to make it a standalone inquiry, maintaining its original language. You'll be provided with a conversation history and a follow-up question.
 
-Current conversation:
+Instructions:
+1. Review the conversation provided below, including both user and AI messages.
+2. Examine the follow-up question included in the conversation.
+3. Reconstruct the follow-up question to be self-contained, without requiring context from the previous conversation. Ensure it remains in the same language as the original.
+
+Conversation:
+###
 {chatHistory}
+###
 
-User: {{input}}
-AI:`
+User's Follow-Up Question:
+### 
+{input}
+###
 
-const QA_TEMPLATE = `The context that follows is pulled from a website. Respond based on the website information below, acting as an agent guiding someone through the website.
+Your Task:
+Rephrase the follow-up question to make it suitable for standalone usage, ensuring it remains in the original language.`
 
-Current conversation:
+const QA_TEMPLATE = `Based on the information provided below from a website, act as a guide to assist someone navigating through the website.
+
+Instructions:
+1. Review the conversation history and the contextual information extracted from the website.
+2. Assume the role of a helpful agent and respond to the user's input accordingly.
+3. Provide guidance, explanations, or assistance as needed, leveraging the website context to enhance your responses.
+
+Conversation History:
+###
 {chatHistory}
+###
 
-Context:
+Context from Website:
+###
 {context}
+###
 
-User: {input}
-AI:`
+User's Input: 
+###
+{input}
+###
+
+Your Task:
+Respond to the user's input as if you were guiding them through the website, using the provided context to inform your responses.`
 
 
 /**
@@ -83,7 +109,9 @@ export async function POST(req: Request) {
 
     const rephrasedInput = await rephraseInput(model, formattedPreviousMessages, currentMessageContent);
 
-    const context = await retrieveContext(rephrasedInput, table)
+    const context = (await retrieveContext(rephrasedInput, table)).map(c => c.context).join('\n\n---\n\n').substring(0, 3750) // need to make sure our prompt is not larger than max size
+
+    console.log("Context:", context); 
 
     const qaPrompt = PromptTemplate.fromTemplate(QA_TEMPLATE);
 
@@ -95,7 +123,7 @@ export async function POST(req: Request) {
 
     const stream = await qaChain.stream({
         chatHistory: formattedPreviousMessages.join('\n'),
-        context: context.map(c => c.context).join('\n\n---\n\n').substring(0, 3750), // need to make sure our prompt is not larger than max size
+        context, 
         input: rephrasedInput,
     });
 
