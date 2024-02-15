@@ -13,6 +13,7 @@ export default function Home() {
     table: '',
     modelName: 'gpt-3.5-turbo',
     temperature: 0.7,
+    maxDocs: 3,
   })
 
   return (

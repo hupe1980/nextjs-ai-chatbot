@@ -5,4 +5,5 @@ interface MainState {
     table: string,
     modelName: string,
     temperature: number,
+    maxDocs: number,
 }

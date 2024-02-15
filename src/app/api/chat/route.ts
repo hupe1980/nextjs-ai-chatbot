@@ -90,7 +90,7 @@ async function retrieveContext(query: string, table: string, k = 3): Promise<Ent
   }
 
 export async function POST(req: Request) {
-    const { messages, table, modelName, temperature } = await req.json()
+    const { messages, table, modelName, temperature, maxDocs } = await req.json()
 
     const model = new ChatOpenAI({
         modelName,
@@ -108,7 +108,7 @@ export async function POST(req: Request) {
     const rephrasedInput = await rephraseInput(model, formattedPreviousMessages, currentMessageContent);
 
     const context = await (async () => {
-        const result = await retrieveContext(rephrasedInput, table)
+        const result = await retrieveContext(rephrasedInput, table, maxDocs)
         return result.map(c => {
             if (c.title) return `${c.title}\n${c.context}`
             return c.context

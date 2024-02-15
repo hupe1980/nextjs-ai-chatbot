@@ -87,6 +87,23 @@ export default function Form({ state, setState }: { state: MainState, setState: 
             <option value="gpt-4">gpt-4</option>
           </select>
         </div>
+        <div className="basis-1/2 w-full">
+          <label htmlFor="maxDocs" className="block mb-2 text-md font-medium text-gray-900">Max docs to retrieve</label>
+          <select
+            id="maxDocs"
+            className="mb-2 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-chatbot focus:border-chatbot sm:text-sm rounded-md bg-gray-100 text-gray-900"
+            value={state.maxDocs}
+            onChange={e => {
+              setState({ ...state, maxDocs: parseInt(e.target.value) });
+            }}
+          >
+            {[1, 2, 3, 4, 5].map(value => (
+              <option key={value} value={value}>
+                {value} {value === 1 ? 'doc' : 'docs'}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
       <div className="mb-2 flex flex-row  bg-blue space-x-2 items-center">
         <button className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-chatbot rounded-lg hover:bg-opacity-80 focus:ring-4 focus:outline-none">

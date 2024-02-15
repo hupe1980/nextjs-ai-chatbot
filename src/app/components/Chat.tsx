@@ -14,6 +14,7 @@ export default function Chat({ state, setState }: { state: MainState, setState: 
       table: state.table,
       modelName: state.modelName,
       temperature: state.temperature,
+      maxDocs: state.maxDocs,
     }
   })
 
