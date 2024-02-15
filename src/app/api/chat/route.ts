@@ -2,7 +2,9 @@ import { Message as VercelChatMessage, StreamingTextResponse } from 'ai'
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { BytesOutputParser, StringOutputParser } from '@langchain/core/output_parsers';
-import { connect, OpenAIEmbeddingFunction } from 'vectordb'
+import { OpenAIEmbeddingFunction } from 'vectordb'
+
+import { connect } from '@/lib/vectorstore'
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? ''
 
@@ -74,7 +76,7 @@ async function rephraseInput(model: ChatOpenAI, chatHistory: string[], input: st
 }
 
 async function retrieveContext(query: string, table: string, k = 3): Promise<EntryWithContext[]> {
-    const db = await connect('/tmp/website-lancedb')
+    const db = await connect()
     
     const embedFunction = new OpenAIEmbeddingFunction('context', OPENAI_API_KEY)
     

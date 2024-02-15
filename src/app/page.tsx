@@ -2,8 +2,8 @@
 
 import { useState, type ReactNode } from 'react';
 
-import Chat from './components/Chat'
-import Form from './components/Form'
+import Chat from '@/components/Chat'
+import Form from '@/components/Form'
 
 export default function Home() {
   const [state, setState] = useState({
