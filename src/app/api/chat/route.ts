@@ -23,8 +23,7 @@ User's Follow-Up Question:
 {input}
 ###
 
-Your Task:
-Rephrase the follow-up question to make it suitable for standalone usage, ensuring it remains in the original language.`
+Your Response:`
 
 const QA_TEMPLATE = `Based on the information provided below from a website, act as a guide to assist someone navigating through the website.
 
@@ -48,8 +47,7 @@ User's Input:
 {input}
 ###
 
-Your Task:
-Respond to the user's input as if you were guiding them through the website, using the provided context to inform your responses.`
+Your Response:`
 
 
 /**
@@ -86,7 +84,7 @@ async function retrieveContext(query: string, table: string, k = 3): Promise<Ent
     
     return await tbl
       .search(query)
-      .select(['link', 'text', 'context'])
+      .select(['link', 'title', 'text', 'context'])
       .limit(k)
       .execute() as EntryWithContext[]
   }
@@ -109,9 +107,16 @@ export async function POST(req: Request) {
 
     const rephrasedInput = await rephraseInput(model, formattedPreviousMessages, currentMessageContent);
 
-    const context = (await retrieveContext(rephrasedInput, table)).map(c => c.context).join('\n\n---\n\n').substring(0, 3750) // need to make sure our prompt is not larger than max size
+    const context = await (async () => {
+        const result = await retrieveContext(rephrasedInput, table)
+        return result.map(c => {
+            if (c.title) return `${c.title}\n${c.context}`
+            return c.context
+        }).join('\n\n---\n\n').substring(0, 3750) // need to make sure our prompt is not larger than max size
+    })()
 
-    console.log("Context:", context); 
+    console.log("Context:")
+    console.log(context); 
 
     const qaPrompt = PromptTemplate.fromTemplate(QA_TEMPLATE);
 
